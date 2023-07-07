@@ -4,9 +4,9 @@
 <table class="table">
   <thead>
     <tr>
-      <th>タイトル</th>
+      <th>曲名</th>
+      <th>勝敗</th>
       <th>日付</th>
-      <th>画像</th>
       <th></th>
     </tr>
   </thead>
@@ -15,8 +15,8 @@
     <tr>
       <!-- 「url 'アプリ名:逆引きURL' 渡されるモデル.pk」 という描き方 -->
       <td><a href="{% url 'orc:post_detail' post.pk %}">{{ post.title }}</a></td>
+      <td>{{ post.text }}</td>
       <td>{{ post.date }}</td>
-      <td>{{ post.image }}</td>
       <td>
         <!-- superuserでログインしている時にのみ表示 -->
         {% if user.is_superuser %}
@@ -33,5 +33,4 @@
   {% endfor %}
   </tbody>
 </table>
-
 {% endblock %}

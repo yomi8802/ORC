@@ -5,12 +5,14 @@ from django.views import generic
 from django.urls import reverse_lazy
 from .forms import PostCreateForm # forms.py で作ったクラスをimport
 from .models import Post
+from .modules import recognition
 
 class PostListView(generic.ListView):
     model = Post
-
-class PostCreateView(generic.CreateView):
+    
+class PostCreateFormView(generic.FormView):
     model = Post
+    template_name = "orc/post_form.html"
     form_class = PostCreateForm
     success_url = reverse_lazy('orc:post_list')
 
@@ -19,8 +21,9 @@ class PostCreateView(generic.CreateView):
         for image in self.request.FILES.getlist('images'):
             # 画像を新しいPostモデルのインスタンスとして保存する
             post = Post()
-            post.title = form.cleaned_data['title']
-            post.text = form.cleaned_data['text']
+            results = recognition.rec(image)
+            post.title = results[0]
+            post.text = results[1]
             post.image = image
             post.save()
 

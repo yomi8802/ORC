@@ -22,7 +22,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'orc:post_create' %}">投稿</a>
+                    <a class="nav-link" href="{% url 'orc:post_form' %}">投稿</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'orc:post_list' %}">一覧</a>
@@ -32,8 +32,8 @@
     </nav>
 
     <!-- このblockの中で各templateの記載内容が呼び出される -->
-    {% block content %} # 注目！
-    {% endblock %}      # 注目！
+    {% block content %} 
+    {% endblock %}      
 </div>
 
 <!-- Optional JavaScript -->
