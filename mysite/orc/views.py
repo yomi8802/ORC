@@ -3,7 +3,7 @@ import os
 
 from django.views import generic
 from django.urls import reverse_lazy
-from .forms import PostCreateForm # forms.py で作ったクラスをimport
+from .forms import PostCreateForm 
 from .models import Post
 from .modules import recognition
 
@@ -23,7 +23,12 @@ class PostCreateFormView(generic.FormView):
             post = Post()
             results = recognition.rec(image)
             post.title = results[0]
-            post.text = results[1]
+            post.winlose = results[1]
+            post.perfect = results[2]
+            post.great = results[3]
+            post.good = results[4]
+            post.bad = results[5]
+            post.miss = results[6]
             post.image = image
             post.save()
 
