@@ -27,7 +27,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'orc.apps.orcConfig',
-    'upload_app.apps.UploadAppConfig',
 ]
 
 MIDDLEWARE = [
@@ -113,3 +112,7 @@ STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 MEDIA_URL = 'media/'
+
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/orc/post_list'
+LOGOUT_REDIRECT_URL= '/login'
