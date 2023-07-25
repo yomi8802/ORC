@@ -1,14 +1,36 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<form action="" method="POST" enctype="multipart/form-data">
+<form id="post_result" action="" method="POST" enctype="multipart/form-data">
   <table class="table">
-      <tr>
-        <th>画像</th>
-        <td>{{ form.images }}</td>
-      </tr>
+    <tr>
+      <th>画像</th>
+      <td>{{ form.images }}</td>
+    </tr>
+    <tr>
+      <th>日付</th>
+      <td>{{ form.date }}</td>
+    </tr>
   </table>
-  <button type="submit" class="btn btn-primary">送信</button>
+  <button id="submitButton" type="submit" class="btn btn-primary">
+    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+    Submit
+  </button>
   {% csrf_token %}
 </form>
+
+<script>
+  document.getElementById('post_result').addEventListener('submit', function (event) {
+    var submitButton = document.getElementById('submitButton');
+    var spinner = submitButton.querySelector('.spinner-border');
+
+    // ボタンを無効化し、スピナーを表示
+    submitButton.setAttribute('disabled', 'disabled');
+    spinner.style.display = 'inline-block';
+
+    // フォームをサブミットする
+    // ページがリロードされるため、スピナーが一瞬しか表示されない
+  });
+</script>
+
 {% endblock %}

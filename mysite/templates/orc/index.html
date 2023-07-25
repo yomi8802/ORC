@@ -1,0 +1,156 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+        <div class="card card-chart mb-3" style="margin-top:2rem;">
+            <div class="card-header">
+                <span class="nav-tabs-title">総合戦績</span>
+            </div>
+            <div class="card-body">
+                <div class="row align-items-end justify-content-center">
+                    <div class="col-md-5 p-0">
+                        <h4 class="card-title">勝率</h4>
+                        <p class="card-category h2 text-center">
+                            {{ total_win_ratio }}
+                            <span class="h6">%</span>
+                        </p>
+                    </div>
+                    <div class="col-md-5 p-0">
+                        <h4 class="card-title">AP率</h4>
+                        <p class="card-category h2 text-center">
+                            {{ total_AP_ratio }}
+                            <span class="h6">%</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-white">
+                <div class="row align-items-end justify-content-end">
+                    <p class="card-category col-md-3 text-center p-0 m-0">試合数:{{ total_count }}</p>
+                    <p class="card-category col-md-2 text-center p-0 m-0">勝:{{ total_win_count }}</p>
+                    <p class="card-category col-md-2 text-center p-0 m-0">分:{{ total_draw_count }}</p>
+                    <p class="card-category col-md-2 text-center p-0 m-0">負:{{ total_lose_count }}</p>
+                    <p class="card-category col-md-2 text-center p-0 m-0">AP:{{ total_AP_count }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5">
+        <div class="card card-chart mb-3" style="margin-top:2rem;">
+            <div class="card-header">
+                <span class="nav-tabs-title">今日の戦績</span>
+            </div>
+            <div class="card-body">
+                <div class="row align-items-end justify-content-center">
+                    <div class="col-md-5 p-0">
+                        <h4 class="card-title">勝率</h4>
+                        <p class="card-category h2 text-center">
+                            {{ today_win_ratio }}
+                            <span class="h6">%</span>
+                        </p>
+                    </div>
+                    <div class="col-md-5 p-0">
+                        <h4 class="card-title">AP率</h4>
+                        <p class="card-category h2 text-center">
+                            {{ today_AP_ratio }}
+                            <span class="h6">%</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-white">
+                <div class="row align-items-end justify-content-end">
+                    <p class="card-category col-md-3 text-center p-0 m-0">試合数:{{ today_count }}</p>
+                    <p class="card-category col-md-2 text-center p-0 m-0">勝:{{ today_win_count }}</p>
+                    <p class="card-category col-md-2 text-center p-0 m-0">分:{{ today_draw_count }}</p>
+                    <p class="card-category col-md-2 text-center p-0 m-0">負:{{ today_lose_count }}</p>
+                    <p class="card-category col-md-2 text-center p-0 m-0">AP:{{ today_AP_count }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-md-10">
+        <div class="card">
+            <div class="card-header">
+                <span class="nav-tabs-title">過去の戦績</span>
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button type="button" class="nav-link active" id="atab" data-bs-toggle="tab"
+                            data-bs-target="#a-tab-pane" role="tab" aria-controls="a-tab-pane"
+                            aria-selected="true">日付</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button type="button" class="nav-link" id="btab" data-bs-toggle="tab"
+                            data-bs-target="#b-tab-pane" role="tab" aria-controls="b-tab-pane"
+                            aria-selected="false">楽曲</button>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="a-tab-pane" role="tabpanel" aria-labelledby="atab" tabindex="0">
+                        <table class="table table-hover">
+                            <thead class="text-warning">
+                                <th>日付</th>
+                                <th>試合数</th>
+                                <th>勝率</th>
+                                <th>AP率</th>
+                            </thead>
+                            <tbody>
+                                {% for daily_result in daily_results %}
+                                <tr>
+                                    <td>{{ daily_result.date }}</td>
+                                    <td>{{ daily_result.num }}</td>
+                                    <td>{{ daily_result.win_ratio }} <small>%</small></td>
+                                    <td>{{ daily_result.ap_ratio }} <small>%</small></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane" id="b-tab-pane" role="tabpanel" aria-labelledby="btab" tabindex="0">
+                        <table class="table table-hover">
+                            <thead class="text-warning">
+                                <th>曲名</th>
+                                <th>試合数</th>
+                                <th>勝率</th>
+                                <th>AP率</th>
+                            </thead>
+                            <tbody>
+                                {% for song_result in song_results %}
+                                <tr>
+                                    <td>{{ song_result.title }}</td>
+                                    <td>{{ song_result.num }}</td>
+                                    <td>{{ song_result.win_ratio }} <small>%</small></td>
+                                    <td>{{ song_result.ap_ratio }} <small>%</small></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script>
+    $(document).ready(function () {
+        // Javascript method's body can be found in assets/js/demos.js
+        md.initDashboardPageCharts();
+
+    });
+</script>
+
+{% endblock javascripts %}

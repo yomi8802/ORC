@@ -76,12 +76,12 @@ def rec(img):
             #勝敗をテンプレートマッチングで判定
             res = cv2.matchTemplate(img_binary, winlose_mapping[winlose_file], cv2.TM_CCOEFF_NORMED)
             _, maxVal, _, _, = cv2.minMaxLoc(res)
-            print(maxVal)
             if maxVal < 0.7:
                 continue
             winlose_result = os.path.splitext(winlose_file)[0]
             results.append(winlose_result.split(".")[0])
             #内部
+            ap_check = -1
             for i in range(0, 5):
                 img_gray = img[563 + 147 * i:619 + 147 * i, 762:932]
                 img_gray = cv2.cvtColor(img_gray, cv2.COLOR_BGR2GRAY)
@@ -89,7 +89,16 @@ def rec(img):
                 str_img = Image.fromarray(img_binary)
                 str_result = tool.image_to_string(str_img, lang='eng', builder=pyocr.builders.DigitBuilder(tesseract_layout=8))
                 results.append(str_result)
+                if i > 0:
+                    if str_result != '0000':
+                        ap_check = 1
+
+            if ap_check == -1:
+                results.append("AP")
+            else:
+                results.append(" ")
+
             break
 
-    #results 0:曲名 1:勝敗 2:perfect 3:great 4:good 5:bad 6:miss
+    #results 0:曲名 1:勝敗 2:perfect 3:great 4:good 5:bad 6:miss 7:AP
     return results
