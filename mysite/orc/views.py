@@ -5,7 +5,8 @@ from django.db.models.query import QuerySet
 from django.http import HttpResponse
 from django.utils import timezone
 from django.views import generic
-from django.urls import reverse_lazy
+from django.shortcuts import redirect
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import PostCreateForm, PostBulkDeleteForm
 from .models import Post, DailyResult, SongResult
@@ -45,7 +46,11 @@ class IndexView(generic.TemplateView):
         context['song_results'] = SongResult.objects.filter(user=self.request.user)
         return context  
 
-class PostListView(LoginRequiredMixin, generic.ListView):
+class PostListView(generic.ListView):
+    form_class = PostBulkDeleteForm
+    template_name = "orc/post_list.html"
+    success_url = reverse_lazy('orc:post_list')
+
     model = Post
 
     def get_queryset(self):
@@ -57,12 +62,7 @@ class PostListView(LoginRequiredMixin, generic.ListView):
         context = super().get_context_data(**kwargs)
         context['form'] = PostBulkDeleteForm()
         return context
-
-class PostBulkDeleteView(generic.FormView):
-    form_class = PostBulkDeleteForm
-    template_name = "orc/post_bulk_delete.html"
-    success_url = reverse_lazy('orc:post_list')
-
+    
     def post(self, request, *args, **kwargs):
         form = PostBulkDeleteForm(request.POST)
         if form.is_valid():
@@ -108,9 +108,10 @@ class PostBulkDeleteView(generic.FormView):
 
             # レコードを一括削除
             Post.objects.filter(pk__in=selected_ids).delete()
+            
+            return redirect(reverse('orc:post_list'))
 
-        return self.get(request, *args, **kwargs)
-
+        return self.form_invalid(form)
 
 class PostCreateFormView(LoginRequiredMixin, generic.FormView):
     template_name = "orc/post_form.html"
