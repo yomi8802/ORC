@@ -1,4 +1,6 @@
 tests/
 db.sqlite
-locaal_settings.py
+local_settings.py
 *.png
+!mysite/orc/static/orc/template/*.png
+!mysite/orc/static/orc/winlose/*.png
