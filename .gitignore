@@ -1,0 +1,4 @@
+tests/
+db.sqlite
+locaal_settings.py
+*.png
