@@ -1,5 +1,5 @@
 tests/
-db.sqlite
+db.sqlite3
 local_settings.py
 *.png
 !mysite/orc/static/orc/template/*.png
