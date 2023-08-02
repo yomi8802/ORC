@@ -1,18 +1,19 @@
 import os
 from datetime import date
-from typing import Any, Dict
+from typing import Any, Dict, Optional
+from django.db import models
 from django.db.models.query import QuerySet
 from django.http import HttpResponse
 from django.utils import timezone
 from django.views import generic
-from django.shortcuts import redirect
+from django.shortcuts import redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import PostCreateForm, PostBulkDeleteForm
 from .models import Post, DailyResult, SongResult
 from .modules import recognition
 
-class IndexView(generic.TemplateView):
+class IndexView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'orc/index.html'
     
     def get_context_data(self, **kwargs):
@@ -46,7 +47,7 @@ class IndexView(generic.TemplateView):
         context['song_results'] = SongResult.objects.filter(user=self.request.user)
         return context  
 
-class PostListView(generic.ListView):
+class PostListView(LoginRequiredMixin, generic.ListView):
     form_class = PostBulkDeleteForm
     template_name = "orc/post_list.html"
     success_url = reverse_lazy('orc:post_list')
@@ -109,9 +110,7 @@ class PostListView(generic.ListView):
             # レコードを一括削除
             Post.objects.filter(pk__in=selected_ids).delete()
             
-            return redirect(reverse('orc:post_list'))
-
-        return self.form_invalid(form)
+        return redirect(reverse('orc:post_list'))
 
 class PostCreateFormView(LoginRequiredMixin, generic.FormView):
     template_name = "orc/post_form.html"
@@ -124,6 +123,8 @@ class PostCreateFormView(LoginRequiredMixin, generic.FormView):
             # 画像を新しいPostモデルのインスタンスとして保存する
             post = Post()
             results = recognition.rec(image)
+            if len(results) != 8:
+                continue
             post.title = results[0]
             post.winlose = results[1]
             post.perfect = results[2]
@@ -139,23 +140,14 @@ class PostCreateFormView(LoginRequiredMixin, generic.FormView):
 
         return super().form_valid(form)
 
-class PostDetailView(generic.DetailView):
+class PostDetailView(LoginRequiredMixin, generic.DetailView):
     model = Post  # pk(primary key)はurls.pyで指定しているのでここではmodelを呼び出すだけで済む
 
-class PostUpdateView(generic.UpdateView):
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get('pk')
+        return get_object_or_404(self.model, pk=pk)
+
+class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Post
     form_class = PostCreateForm # PostCreateFormをほぼそのまま活用できる
     success_url = reverse_lazy('orc:post_detail')
-
-class PostDeleteView(generic.DeleteView):
-    model = Post
-    success_url = reverse_lazy('orc:post_list')
-
-    def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        # 画像ファイルのパスを取得する処理を追加する
-        image_path = self.object.image.path
-        # レコードを削除する前に画像ファイルを削除する処理を追加する
-        if os.path.exists(image_path):
-            os.remove(image_path)
-        return super().delete(request, *args, **kwargs)

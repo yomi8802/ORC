@@ -1,5 +1,6 @@
 {% load static %}
 <html lang="ja">
+
 <head>
     <title>OtogeResultCalculation</title>
     <!-- Required meta tags -->
@@ -13,30 +14,40 @@
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous">
     </script>
 </head>
+
 <body class="bg-light-subtle">
-<div class="container">
+    <div class="container">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{% url 'orc:index' %}">トップ</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="{% url 'orc:index' %}">OtogeResultCalculation</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
+            {% if user.is_authenticated %}
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="navbar-nav">
                     <a class="nav-link" href="{% url 'orc:post_form' %}">投稿</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="{% url 'orc:post_list' %}">一覧</a>
-                </li>
-            </ul>
-        </div>
-    </nav>
+                </div>
+                <div class="navbar-nav d-flex ms-auto">
+                        <span class="navbar-text">{{ user.username }}</span>
+                        <a class="nav-link" href="{% url 'accounts:logout' %}">ログアウト</a>
+                </div>
+            </div>
+            {% else %}
+                <div class="navbar-nav d-flex ms-auto">
+                    <a class="nav-link" href="{% url 'accounts:signup' %}">新規登録</a>
+                    <a class="nav-link" href="{% url 'accounts:login' %}">ログイン</a>
+                </div>
+            {% endif %}
+        </nav>
 
-    <!-- このblockの中で各templateの記載内容が呼び出される -->
-    {% block content %} 
-    {% endblock %}      
-</div>
+        <!-- このblockの中で各templateの記載内容が呼び出される -->
+        {% block content %}
+        {% endblock %}
+    </div>
 </body>
+
 </html>

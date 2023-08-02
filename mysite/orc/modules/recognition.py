@@ -53,6 +53,9 @@ def rec(img):
     img_gray = cv2.cvtColor(img_gray, cv2.COLOR_BGR2GRAY)
     img_binary = cv2.adaptiveThreshold(img_gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 111, 4)
 
+    #sqlレコード用配列
+    results = []
+
     for template_file in template_files:
 
         #類似部分枠付
@@ -60,8 +63,6 @@ def rec(img):
         _, maxVal, _, _, = cv2.minMaxLoc(res)
         if maxVal < 0.7:
             continue
-        #sqlレコード用配列
-        results = []
         music_name = os.path.splitext(template_file)[0]
         results.append(music_name.split(",")[0])
         #文字認識

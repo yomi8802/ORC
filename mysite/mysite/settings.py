@@ -111,11 +111,10 @@ USE_TZ = True
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-MEDIA_URL = 'media/'
-
 LOGIN_URL = '/login'
-LOGIN_REDIRECT_URL = '/orc/post_list'
+LOGIN_REDIRECT_URL = '/orc/index'
 LOGOUT_REDIRECT_URL= '/login'

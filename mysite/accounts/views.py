@@ -8,7 +8,7 @@ from .forms import SignupForm, LoginForm
 class MySignupView(CreateView):
     template_name = 'accounts/signup.html'
     form_class = SignupForm
-    success_url = '/orc/post_list'
+    success_url = '/orc/index'
 
     def form_valid(self, form):
         result = super().form_valid(form)

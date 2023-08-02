@@ -9,36 +9,35 @@
     </tr>
     <tr>
       <th>勝敗</th>
-      <!-- linebreaksbk を入れると改行タグでちゃんと改行して表示されるようになる -->
-      <td>{{ post.text | linebreaksbr}}</td>
+      <td>{{ post.winlose}}</td>
     </tr>
     <tr>
-        <th>perfect</th>
-        <td>{{ post.perfect }}</td>
-      </tr>
-      <tr>
-        <th>great</th>
-        <td>{{ post.great }}</td>
-      </tr>
-      <tr>
-        <th>good</th>
-        <td>{{ post.good }}</td>
-      </tr>
-      <tr>
-        <th>bad</th>
-        <td>{{ post.bad }}</td>
-      </tr>
-      <tr>
-        <th>miss</th>
-        <td>{{ post.miss }}</td>
-      </tr>
+      <th>perfect</th>
+      <td>{{ post.perfect }}</td>
+    </tr>
+    <tr>
+      <th>great</th>
+      <td>{{ post.great }}</td>
+    </tr>
+    <tr>
+      <th>good</th>
+      <td>{{ post.good }}</td>
+    </tr>
+    <tr>
+      <th>bad</th>
+      <td>{{ post.bad }}</td>
+    </tr>
+    <tr>
+      <th>miss</th>
+      <td>{{ post.miss }}</td>
+    </tr>
     <tr>
       <th>日付</th>
-      <td>{{ post.date }}</td>
+      <td>{{ post.date|date:"Y-m-d" }}</td>
     </tr>
     <tr>
       <th>画像</th>
-      <td><img src="{{ post.image.url }}"></td>
+      <td><img src="{{ post.image.url }}" style="width:100%"></td>
     </tr>
 </table>
 {% endblock %}
