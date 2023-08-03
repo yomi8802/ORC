@@ -16,7 +16,7 @@ SECRET_KEY = 'r13z*nhkmd7h(4$7=x59i4o7csfw!lu$n5+7vb$!twr1n3mje7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost', '.pythonanywhere.com', 'orc.pythonanywhere.com']
+ALLOWED_HOSTS = ['localhost', 'orc.onrender.com']
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
@@ -70,8 +70,12 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'orc',
+        'USER': 'yomi',
+        'PASSWORD':'',
+        'HOST':'localhost',
+        'PORT':'',
     }
 }
 
