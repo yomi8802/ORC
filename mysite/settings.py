@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
-DATABASES = {'default': dj_database_url.parse('postgresql://postgres:pass@localhost:5432/orc')}
+DATABASES = {'default': dj_database_url.parse('postgresql@14://postgres:pass@localhost:5432/orc')}
 
 
 # Password validation
