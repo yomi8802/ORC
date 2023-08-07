@@ -1,5 +1,5 @@
 databases:
-  - name: django_render_db
+  - name: orc_db
     region: singapore
     plan: free
     databaseName: django_render_db
@@ -7,7 +7,7 @@ databases:
 
 services:
   - type: web
-    name: django_render
+    name: orc
     env: python
     region: singapore
     buildCommand: './build.sh'
