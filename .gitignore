@@ -7,5 +7,5 @@ __pycache__
 .env
 local_settings.py
 *.png
-!mysite/orc/static/orc/template/*.png
-!mysite/orc/static/orc/winlose/*.png
+!orc/static/orc/template/*.png
+!orc/static/orc/winlose/*.png
