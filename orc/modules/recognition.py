@@ -5,47 +5,50 @@ import pyocr.builders
 import numpy as np
 from PIL import Image
 
-def rec(img):
-    print('start')
-    img = cv2.imdecode(np.fromstring(img.read(), np.uint8), cv2.IMREAD_COLOR)
-    # 画像ファイルの拡張子
-    image_extensions = ['.jpg', '.jpeg', '.png']
+# 画像ファイルの拡張子
+image_extensions = ['.jpg', '.jpeg', '.png']
 
-    # ジャケット画像が格納されているディレクトリのパス
-    template_dir = 'orc/static/orc/template'
-    # ジャケット画像ファイルのリストを取得
-    template_files = [file for file in os.listdir(template_dir) if os.path.splitext(file)[1].lower() in image_extensions]
-    # 2値化したジャケット画像を格納する辞書
-    template_mapping = {}
+# ジャケット画像が格納されているディレクトリのパス
+template_dir = 'orc/static/orc/template'
+# ジャケット画像ファイルのリストを取得
+template_files = [file for file in os.listdir(template_dir) if os.path.splitext(file)[1].lower() in image_extensions]
+# 2値化したジャケット画像を格納する辞書
+template_mapping = {}
 
-    # 勝敗画像が格納されているディレクトリのパス
-    winlose_dir = 'orc/static/orc/winlose'
-    # 勝敗画像ファイルのリストを取得
-    winlose_files = [file for file in os.listdir(winlose_dir) if os.path.splitext(file)[1].lower() in image_extensions]
-    # 2値化した勝敗画像を格納する辞書
-    winlose_mapping = {}
+# 勝敗画像が格納されているディレクトリのパス
+winlose_dir = 'orc/static/orc/winlose'
+# 勝敗画像ファイルのリストを取得
+winlose_files = [file for file in os.listdir(winlose_dir) if os.path.splitext(file)[1].lower() in image_extensions]
+# 2値化した勝敗画像を格納する辞書
+winlose_mapping = {}
 
+def create_binary():
     for template_file in template_files:
         #テンプレート画像のパスを作成
         template_path = os.path.join(template_dir, template_file)
-        print(template_file)
 
         #テンプレート画像作成
         template = cv2.imread(template_path)
         template = cv2.resize(template, (248, 248))
         template_gray = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
         template_binary = cv2.adaptiveThreshold(template_gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 111, 4)
-        template_mapping[template_file] = template_binary
+        template_binary_path = os.path.join('orc/static/orc/template_binary',f'{os.path.splitext(template_file)[0]}.npy')
+        np.save(template_binary_path, template_binary)
+        template_mapping[template_file] = np.load(template_binary_path)
 
     for winlose_file in winlose_files:
-            #勝敗画像のパスを作成
-            winlose_path = os.path.join(winlose_dir, winlose_file)
-            print(winlose_file)
+        #勝敗画像のパスを作成
+        winlose_path = os.path.join(winlose_dir, winlose_file)
 
-            winlose_img = cv2.imread(winlose_path)
-            winlose_gray = cv2.cvtColor(winlose_img, cv2.COLOR_BGR2GRAY)
-            winlose_binary = cv2.adaptiveThreshold(winlose_gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 3, 20)
-            winlose_mapping[winlose_file] = winlose_binary
+        winlose_img = cv2.imread(winlose_path)
+        winlose_gray = cv2.cvtColor(winlose_img, cv2.COLOR_BGR2GRAY)
+        winlose_binary = cv2.adaptiveThreshold(winlose_gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 3, 20)
+        winlose_binary_path = os.path.join('orc/static/orc/winlose_binary',f'{os.path.splitext(winlose_file)[0]}.npy')
+        np.save(winlose_binary_path, winlose_binary)
+        winlose_mapping[winlose_file] = np.load(winlose_binary_path)
+
+def rec(img):
+    img = cv2.imdecode(np.fromstring(img.read(), np.uint8), cv2.IMREAD_COLOR)
 
     h,w,c = img.shape
     if w < 1318:
@@ -60,6 +63,8 @@ def rec(img):
     results = []
 
     for template_file in template_files:
+        template_binary_path = os.path.join('orc/static/orc/template_binary',f'{os.path.splitext(template_file)[0]}.npy')
+        template_mapping[template_file] = np.load(template_binary_path)
 
         #類似部分枠付
         res = cv2.matchTemplate(img_binary, template_mapping[template_file], cv2.TM_CCOEFF_NORMED)
@@ -77,6 +82,9 @@ def rec(img):
         img_binary = cv2.adaptiveThreshold(img_gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 3, 20)
 
         for winlose_file in winlose_files:
+            winlose_binary_path = os.path.join('orc/static/orc/winlose_binary',f'{os.path.splitext(winlose_file)[0]}.npy')
+            winlose_mapping[winlose_file] = np.load(winlose_binary_path)
+            
             #勝敗をテンプレートマッチングで判定
             res = cv2.matchTemplate(img_binary, winlose_mapping[winlose_file], cv2.TM_CCOEFF_NORMED)
             _, maxVal, _, _, = cv2.minMaxLoc(res)
