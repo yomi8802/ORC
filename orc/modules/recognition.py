@@ -48,9 +48,10 @@ def create_binary():
         np.save(winlose_binary_path, winlose_binary)
 
 def rec(img):
-    tesseract_cmd = subprocess.run(["which", "tesseract"])
-    print(tesseract_cmd)
-    pyocr.tesseract.TESSERACT_CMD = tesseract_cmd
+    tesseract_result = subprocess.run(["which", "tesseract"], capture_output=True, text=True)
+    tesseract_path = tesseract_result.stdout.strip()
+    print(tesseract_path)
+    pyocr.tesseract.TESSERACT_CMD = tesseract_path
     
     img = cv2.imdecode(np.fromstring(img.read(), np.uint8), cv2.IMREAD_COLOR)
 
