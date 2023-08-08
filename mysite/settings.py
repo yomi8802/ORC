@@ -4,6 +4,22 @@ from decouple import config
 import dj_database_url
 from pathlib import Path
 from django.core.management.utils import get_random_secret_key
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+
+sentry_sdk.init(
+    dsn="https://a79f7fdb96615117c12c7c08705cd3f0@o4505668194729984.ingest.sentry.io/4505668202725376",
+    integrations=[DjangoIntegration()],
+
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0,
+
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=True
+)
 
 SECRET_KEY = get_random_secret_key()
 

@@ -1,5 +1,6 @@
 asgiref==3.2.10
 astroid==2.15.5
+certifi==2023.7.22
 dill==0.3.6
 dj-database-url==0.5.0
 dj-static==0.0.6
@@ -24,8 +25,10 @@ pylint-plugin-utils==0.8.2
 pyocr==0.8.3
 python-decouple==3.8
 pytz==2023.3
+sentry-sdk==1.29.2
 sqlparse==0.4.4
 static3==0.7.0
 tomlkit==0.11.8
+urllib3==2.0.4
 whitenoise==6.5.0
 wrapt==1.15.0
