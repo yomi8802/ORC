@@ -28,6 +28,7 @@ def rec(img):
     for template_file in template_files:
         #テンプレート画像のパスを作成
         template_path = os.path.join(template_dir, template_file)
+        print(template_file)
 
         #テンプレート画像作成
         template = cv2.imread(template_path)
@@ -39,6 +40,7 @@ def rec(img):
     for winlose_file in winlose_files:
             #勝敗画像のパスを作成
             winlose_path = os.path.join(winlose_dir, winlose_file)
+            print(winlose_file)
 
             winlose_img = cv2.imread(winlose_path)
             winlose_gray = cv2.cvtColor(winlose_img, cv2.COLOR_BGR2GRAY)
