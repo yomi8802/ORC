@@ -6,7 +6,7 @@ import pyocr.tesseract
 import numpy as np
 from PIL import Image
 
-pyocr.tesseract.TESSERACT_CMD = 'tesseract'
+pyocr.tesseract.TESSERACT_CMD = 'usr/bin/tesseract'
 
 # 画像ファイルの拡張子
 image_extensions = ['.jpg', '.jpeg', '.png']
