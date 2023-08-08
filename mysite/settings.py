@@ -127,9 +127,9 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
-LOGIN_URL = '/login'
+LOGIN_URL = ''
 LOGIN_REDIRECT_URL = '/orc/index'
-LOGOUT_REDIRECT_URL= '/login'
+LOGOUT_REDIRECT_URL= ''
 
 SUPERUSER_NAME = env('SUPERUSER_NAME')
 SUPERUSER_EMAIL = env('SUPERUSER_EMAIL')
