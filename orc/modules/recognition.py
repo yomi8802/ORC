@@ -6,19 +6,20 @@ import numpy as np
 from PIL import Image
 
 def rec(img):
+    print('start')
     img = cv2.imdecode(np.fromstring(img.read(), np.uint8), cv2.IMREAD_COLOR)
     # 画像ファイルの拡張子
     image_extensions = ['.jpg', '.jpeg', '.png']
 
     # ジャケット画像が格納されているディレクトリのパス
-    template_dir = '/static/orc/template'
+    template_dir = 'orc/static/orc/template'
     # ジャケット画像ファイルのリストを取得
     template_files = [file for file in os.listdir(template_dir) if os.path.splitext(file)[1].lower() in image_extensions]
     # 2値化したジャケット画像を格納する辞書
     template_mapping = {}
 
     # 勝敗画像が格納されているディレクトリのパス
-    winlose_dir = '/static/orc/winlose'
+    winlose_dir = 'orc/static/orc/winlose'
     # 勝敗画像ファイルのリストを取得
     winlose_files = [file for file in os.listdir(winlose_dir) if os.path.splitext(file)[1].lower() in image_extensions]
     # 2値化した勝敗画像を格納する辞書
@@ -34,7 +35,6 @@ def rec(img):
         template_gray = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
         template_binary = cv2.adaptiveThreshold(template_gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 111, 4)
         template_mapping[template_file] = template_binary
-        print(os.path.splitext(template)[0].split(",")[0])
 
     for winlose_file in winlose_files:
             #勝敗画像のパスを作成
