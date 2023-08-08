@@ -23,6 +23,14 @@ winlose_files = [file for file in os.listdir(winlose_dir) if os.path.splitext(fi
 winlose_mapping = {}
 
 def create_binary():
+    # ジャケット画像が格納されているディレクトリのパス
+    template_dir = 'orc/static/orc/template'
+    # ジャケット画像ファイルのリストを取得
+    template_files = [file for file in os.listdir(template_dir) if os.path.splitext(file)[1].lower() in image_extensions]
+    # 勝敗画像が格納されているディレクトリのパス
+    winlose_dir = 'orc/static/orc/winlose'
+    # 勝敗画像ファイルのリストを取得
+    winlose_files = [file for file in os.listdir(winlose_dir) if os.path.splitext(file)[1].lower() in image_extensions]
     for template_file in template_files:
         #テンプレート画像のパスを作成
         template_path = os.path.join(template_dir, template_file)
