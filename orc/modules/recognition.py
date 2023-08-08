@@ -5,8 +5,7 @@ import pyocr.builders
 import pyocr.tesseract
 import numpy as np
 from PIL import Image
-
-pyocr.tesseract.TESSERACT_CMD = 'usr/bin/tesseract'
+import subprocess
 
 # 画像ファイルの拡張子
 image_extensions = ['.jpg', '.jpeg', '.png']
@@ -49,6 +48,10 @@ def create_binary():
         np.save(winlose_binary_path, winlose_binary)
 
 def rec(img):
+    tesseract_cmd = subprocess.run(["which", "tesseract"])
+    print(tesseract_cmd)
+    pyocr.tesseract.TESSERACT_CMD = tesseract_cmd
+    
     img = cv2.imdecode(np.fromstring(img.read(), np.uint8), cv2.IMREAD_COLOR)
 
     h,w,c = img.shape
