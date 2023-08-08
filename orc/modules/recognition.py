@@ -11,14 +11,14 @@ def rec(img):
     image_extensions = ['.jpg', '.jpeg', '.png']
 
     # ジャケット画像が格納されているディレクトリのパス
-    template_dir = 'orc/static/orc/template'
+    template_dir = '/static/orc/template'
     # ジャケット画像ファイルのリストを取得
     template_files = [file for file in os.listdir(template_dir) if os.path.splitext(file)[1].lower() in image_extensions]
     # 2値化したジャケット画像を格納する辞書
     template_mapping = {}
 
     # 勝敗画像が格納されているディレクトリのパス
-    winlose_dir = 'orc/static/orc/winlose'
+    winlose_dir = '/static/orc/winlose'
     # 勝敗画像ファイルのリストを取得
     winlose_files = [file for file in os.listdir(winlose_dir) if os.path.splitext(file)[1].lower() in image_extensions]
     # 2値化した勝敗画像を格納する辞書
