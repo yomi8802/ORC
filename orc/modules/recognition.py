@@ -34,7 +34,6 @@ def create_binary():
         template_binary = cv2.adaptiveThreshold(template_gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 111, 4)
         template_binary_path = os.path.join('orc/static/orc/template_binary',f'{os.path.splitext(template_file)[0]}.npy')
         np.save(template_binary_path, template_binary)
-        template_mapping[template_file] = np.load(template_binary_path)
 
     for winlose_file in winlose_files:
         #勝敗画像のパスを作成
@@ -45,7 +44,6 @@ def create_binary():
         winlose_binary = cv2.adaptiveThreshold(winlose_gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 3, 20)
         winlose_binary_path = os.path.join('orc/static/orc/winlose_binary',f'{os.path.splitext(winlose_file)[0]}.npy')
         np.save(winlose_binary_path, winlose_binary)
-        winlose_mapping[winlose_file] = np.load(winlose_binary_path)
 
 def rec(img):
     img = cv2.imdecode(np.fromstring(img.read(), np.uint8), cv2.IMREAD_COLOR)
@@ -62,8 +60,11 @@ def rec(img):
     #sqlレコード用配列
     results = []
 
+    template_path = 'orc/static/orc/template_binary'
+
+    template_files = [f for f in os.listdir(template_path) if f.endswith('.npy')]
     for template_file in template_files:
-        template_binary_path = os.path.join('orc/static/orc/template_binary',f'{os.path.splitext(template_file)[0]}.npy')
+        template_binary_path = os.path.join(template_path, template_file)
         template_mapping[template_file] = np.load(template_binary_path)
 
         #類似部分枠付
@@ -81,8 +82,11 @@ def rec(img):
         img_gray = cv2.cvtColor(img_gray, cv2.COLOR_BGR2GRAY)
         img_binary = cv2.adaptiveThreshold(img_gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 3, 20)
 
+        winlose_path = 'orc/static/orc/winlose_binary'
+
+        winlose_files = [f for f in os.listdir(winlose_path) if f.endswith('.npy')]
         for winlose_file in winlose_files:
-            winlose_binary_path = os.path.join('orc/static/orc/winlose_binary',f'{os.path.splitext(winlose_file)[0]}.npy')
+            winlose_binary_path = os.path.join(winlose_path, winlose_file)
             winlose_mapping[winlose_file] = np.load(winlose_binary_path)
             
             #勝敗をテンプレートマッチングで判定
