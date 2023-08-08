@@ -2,6 +2,7 @@ import cv2
 import os
 import pyocr
 import pyocr.builders
+import pyocr.tesseract
 import numpy as np
 from PIL import Image
 
