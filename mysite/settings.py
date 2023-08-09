@@ -3,7 +3,6 @@ import environ
 from decouple import config
 import dj_database_url
 from pathlib import Path
-from django.core.management.utils import get_random_secret_key
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -21,8 +20,6 @@ sentry_sdk.init(
     send_default_pii=True
 )
 
-SECRET_KEY = get_random_secret_key()
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
@@ -33,12 +30,12 @@ env.read_env(os.path.join(BASE_DIR, ".env"))
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', default='your secret key')
+SECRET_KEY = 'r13z*nhkmd7h(4$7=x59i4o7csfw!lu$n5+7vb$!twr1n3mje7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', 'yomi-orc.com']
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
@@ -92,9 +89,17 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-default_dburl = "sqlite:///" + str(BASE_DIR / "db.sqlite3")
-DATABASES = {'default': dj_database_url.config(default=default_dburl)}
+DATABASES = {
+    'default':  
+    {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'orc_db',
+        'USER': 'yomi',
+        'PASSWORD':'yomi_password',
+        'HOST':'localhost',
+        'PORT':'',
+    }
+}
 
 
 # Password validation
@@ -146,10 +151,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 LOGIN_URL = ''
 LOGIN_REDIRECT_URL = '/orc/index'
 LOGOUT_REDIRECT_URL= ''
-
-SUPERUSER_NAME = env('SUPERUSER_NAME')
-SUPERUSER_EMAIL = env('SUPERUSER_EMAIL')
-SUPERUSER_PASSWORD = env('SUPERUSER_PASSWORD')
 
 try:
     from .local_settings import*
