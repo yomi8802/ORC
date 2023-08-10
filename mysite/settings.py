@@ -6,6 +6,8 @@ from pathlib import Path
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
+
 sentry_sdk.init(
     dsn="https://a79f7fdb96615117c12c7c08705cd3f0@o4505668194729984.ingest.sentry.io/4505668202725376",
     integrations=[DjangoIntegration()],
