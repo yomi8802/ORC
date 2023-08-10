@@ -37,7 +37,7 @@ SECRET_KEY = 'r13z*nhkmd7h(4$7=x59i4o7csfw!lu$n5+7vb$!twr1n3mje7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['118.27.16.27', 'www.yomi-orc.com']
+ALLOWED_HOSTS = ['118.27.16.27', 'yomi-orc.com']
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
