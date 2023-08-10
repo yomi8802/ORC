@@ -66,15 +66,28 @@
             </nav>
         </div>
         {% else %}
-        <nav class="navbar navbar-expand navbar-light bg-light">
-            <a class="navbar-brand small" href="{% url 'orc:index' %}">OtogeResultCalculation</a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <div class="navbar-nav d-flex ms-auto">
-                    <a class="nav-link" href="{% url 'accounts:signup' %}" style="font-size:3.2vw">新規登録</a>
-                    <a class="nav-link" href="{% url 'accounts:login' %}" style="font-size:3.2vw">ログイン</a>
+        <div class="d-none d-sm-block">
+            <nav class="navbar navbar-expand navbar-light bg-light">
+                <a class="navbar-brand" href="{% url 'orc:index' %}">OtogeResultCalculation</a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="navbar-nav d-flex ms-auto">
+                        <a class="nav-link" href="{% url 'accounts:signup' %}">新規登録</a>
+                        <a class="nav-link" href="{% url 'accounts:login' %}">ログイン</a>
+                    </div>
                 </div>
-            </div>
-        </nav>
+            </nav>
+        </div>
+        <div class="d-block d-sm-none">
+            <nav class="navbar navbar-expand navbar-light bg-light">
+                <a class="navbar-brand" href="{% url 'orc:index' %}">OtogeResultCalculation</a>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <div class="navbar-nav d-flex ms-auto">
+                        <a class="nav-link" href="{% url 'accounts:signup' %}" style="font-size:3.2vw">新規登録</a>
+                        <a class="nav-link" href="{% url 'accounts:login' %}" style="font-size:3.2vw">ログイン</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
         {% endif %}
 
         <!-- このblockの中で各templateの記載内容が呼び出される -->
