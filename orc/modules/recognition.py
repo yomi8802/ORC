@@ -55,17 +55,17 @@ def rec(img):
     
     img = cv2.imdecode(np.fromstring(img.read(), np.uint8), cv2.IMREAD_COLOR)
 
+    #sqlレコード用配列
+    results = []
+
     h,w,c = img.shape
     if w < 1318:
         print("画像サイズが異なっています")
-        return
+        return results
 
     img_gray = img[175:423, 1070:1318]
     img_gray = cv2.cvtColor(img_gray, cv2.COLOR_BGR2GRAY)
     img_binary = cv2.adaptiveThreshold(img_gray, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY_INV, 111, 4)
-
-    #sqlレコード用配列
-    results = []
 
     template_path = 'orc/static/orc/template_binary'
 
