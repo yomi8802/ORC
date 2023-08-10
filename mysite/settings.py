@@ -37,11 +37,11 @@ SECRET_KEY = 'r13z*nhkmd7h(4$7=x59i4o7csfw!lu$n5+7vb$!twr1n3mje7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['http://118.27.16.27', 'http://www.yomi-orc.com']
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
-CSRF_TRUSTED_ORIGINS = ['http://118.27.16.27']
+CSRF_TRUSTED_ORIGINS = ['http://118.27.16.27', 'http://www.yomi-orc.com']
 #CSRF_COOKIE_SECURE = True
 #SESSION_COOKIE_SECURE = True
 
