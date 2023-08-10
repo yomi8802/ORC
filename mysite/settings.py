@@ -32,7 +32,7 @@ env.read_env(os.path.join(BASE_DIR, ".env"))
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'r13z*nhkmd7h(4$7=x59i4o7csfw!lu$n5+7vb$!twr1n3mje7'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -93,14 +93,13 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 DATABASES = {
-    'default':  
-    {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'orc_db',
-        'USER': 'yomi',
-        'PASSWORD':'yomi_password',
-        'HOST':'localhost',
-        'PORT':'',
+    'default': {
+        'ENGINE': env.get_value('DATABASE_ENGINE'),
+        'NAME': env.get_value('DATABASE_DB'),
+        'USER': env.get_value('DATABASE_USER'),
+        'PASSWORD': env.get_value('DATABASE_PASSWORD'),
+        'HOST': env.get_value('DATABASE_HOST'),
+        'PORT': env.get_value('DATABASE_PORT'),
     }
 }
 
