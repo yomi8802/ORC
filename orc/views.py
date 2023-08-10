@@ -14,6 +14,8 @@ from .models import Post, DailyResult, SongResult
 from .modules import recognition
 
 class IndexView(LoginRequiredMixin, generic.TemplateView):
+    login_url = '/'
+    redirect_field_name = 'redirect_to'
     template_name = 'orc/index.html'
     
     def get_context_data(self, **kwargs):
@@ -48,6 +50,8 @@ class IndexView(LoginRequiredMixin, generic.TemplateView):
         return context  
 
 class PostListView(LoginRequiredMixin, generic.ListView):
+    login_url = '/'
+    redirect_field_name = 'redirect_to'
     form_class = PostBulkDeleteForm
     template_name = "orc/post_list.html"
     success_url = reverse_lazy('orc:post_list')
@@ -113,6 +117,8 @@ class PostListView(LoginRequiredMixin, generic.ListView):
         return redirect(reverse('orc:post_list'))
 
 class PostCreateFormView(LoginRequiredMixin, generic.FormView):
+    login_url = '/'
+    redirect_field_name = 'redirect_to'
     template_name = "orc/post_form.html"
     form_class = PostCreateForm
     success_url = reverse_lazy('orc:post_list')
@@ -141,6 +147,8 @@ class PostCreateFormView(LoginRequiredMixin, generic.FormView):
         return super().form_valid(form)
 
 class PostDetailView(LoginRequiredMixin, generic.DetailView):
+    login_url = '/'
+    redirect_field_name = 'redirect_to'
     model = Post  # pk(primary key)はurls.pyで指定しているのでここではmodelを呼び出すだけで済む
 
     def get_object(self, queryset=None):
@@ -148,6 +156,8 @@ class PostDetailView(LoginRequiredMixin, generic.DetailView):
         return get_object_or_404(self.model, pk=pk)
 
 class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
+    login_url = '/'
+    redirect_field_name = 'redirect_to'
     model = Post
     form_class = PostCreateForm # PostCreateFormをほぼそのまま活用できる
     success_url = reverse_lazy('orc:post_detail')
