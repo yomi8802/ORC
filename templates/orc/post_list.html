@@ -4,29 +4,56 @@
 {% block content %}
 <form method="post" action="">
   {% csrf_token %}
-  <table class="table">
-    <thead>
-      <tr>
-        <th class="text-center">
-          <button type="submit" class="btn btn-outline-dark btn-sm">一括削除</button>
-        </th>
-        <th>曲名</th>
-        <th>勝敗</th>
-        <th>AP</th>
-        <th>日付</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for post in post_list %}
-      <tr>
-        <td style="width: 10%" class="text-center"><input type="checkbox"class="form-check-input" name="selected_ids" value="{{ post.pk }}"></td>
-        <td><a href="{% url 'orc:post_detail' post.pk %}">{{ post.title }}</a></td>
-        <td>{{ post.winlose }}</td>
-        <td>{{ post.AP }}</td>
-        <td>{{ post.date }}</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="d-none d-sm-block">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-center">
+            <button type="submit" class="btn btn-outline-dark btn-sm"><i class="bi bi-trash3"></i></button>
+          </th>
+          <th>曲名</th>
+          <th>勝敗</th>
+          <th>AP</th>
+          <th>日付</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for post in post_list %}
+        <tr>
+          <td style="width: 10%" class="text-center"><input type="checkbox"class="form-check-input" name="selected_ids" value="{{ post.pk }}"></td>
+          <td><a href="{% url 'orc:post_detail' post.pk %}">{{ post.title }}</a></td>
+          <td>{{ post.winlose }}</td>
+          <td>{{ post.AP }}</td>
+          <td>{{ post.date }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div class="d-block d-sm-none">
+    <table class="table">
+      <thead>
+        <tr>
+          <th class="text-center">
+            <button type="submit" class="btn btn-outline-dark btn-sm"><i class="bi bi-trash3"></i></button>
+          </th>
+          <th>曲名</th>
+          <th>勝敗</th>
+          <th>AP</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for post in post_list %}
+        <tr>
+          <td style="width: 10%" class="text-center"><input type="checkbox" class="form-check-input" name="selected_ids"
+              value="{{ post.pk }}"></td>
+          <td><a href="{% url 'orc:post_detail' post.pk %}">{{ post.title }}</a></td>
+          <td>{{ post.winlose }}</td>
+          <td>{{ post.AP }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </form>
 {% endblock %}
