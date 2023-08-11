@@ -142,12 +142,12 @@ USE_TZ = True
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 STATIC_URL = '/static/'
-STATIC_DIRS = (os.path.join(BASE_DIR, 'static'),)
-STATIC_ROOT = os.path.join(BASE_DIR, 'app/staticfiles')
+STATIC_ROOT = '/usr/share/nginx/html/static'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'app/media/')
+MEDIA_ROOT = '/usr/share/nginx/html/media'
 
 LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/orc/index'
