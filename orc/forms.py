@@ -4,7 +4,7 @@ from django.utils import timezone
 
 class PostCreateForm(forms.ModelForm): # DjangoのModelFormでは強力なValidationを使える
 
-    images = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
+    images = forms.ImageField(widget=forms.ClearableFileInput(attrs={'multiple': True, 'id': 'imageInput'}))
     date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}), initial=timezone.now().date(), input_formats=['%Y-%m-%d'])
 
     class Meta:

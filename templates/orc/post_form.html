@@ -2,11 +2,15 @@
 {% load static %}
 
 {% block content %}
-<form id="post_result" action="" method="POST" enctype="multipart/form-data">
+<form id="uploadForm" action="" method="POST" enctype="multipart/form-data">
   <table class="table">
     <tr>
       <th>画像</th>
-      <td>{{ form.images }}</td>
+      <td>
+        {{ form.images }}<br>
+        一度に5枚まで投稿できます。<br>
+        現状iPad11インチサイズのみ対応。難易度は判定していません。別サイズ・別難易度画像募集しています。
+      </td>
     </tr>
     <tr>
       <th>日付</th>
@@ -15,22 +19,39 @@
   </table>
   <button id="submitButton" type="submit" class="btn btn-primary">
     <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
-    Submit
+    投稿
   </button>
   {% csrf_token %}
 </form>
 
 <script>
-  document.getElementById('post_result').addEventListener('submit', function (event) {
+  document.addEventListener('DOMContentLoaded', function() {
+  const maxImages = 5; // 最大ファイル数
+
+  const imageInput = document.getElementById('imageInput');
+
+  imageInput.addEventListener('change', function() {
+    const selectedFiles = imageInput.files;
+    if (selectedFiles.length > maxImages) {
+      alert(`最大で${maxImages}個のファイルをアップロードできます。`);
+      // 選択したファイルをクリアする（オプション）
+      imageInput.value = '';
+    }
+  });
+  }); 
+
+  document.getElementById('uploadForm').addEventListener('submit', function (event) {
     var submitButton = document.getElementById('submitButton');
     var spinner = submitButton.querySelector('.spinner-border');
-
+    
     // ボタンを無効化し、スピナーを表示
     submitButton.setAttribute('disabled', 'disabled');
     spinner.style.display = 'inline-block';
 
-    // フォームをサブミットする
-    // ページがリロードされるため、スピナーが一瞬しか表示されない
+    const selectedFiles = imageInput.files;
+    if (selectedFiles.length > maxImages) {
+      event.preventDefault(); // フォームの送信を防止
+    }
   });
 </script>
 
