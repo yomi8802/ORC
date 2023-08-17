@@ -2,28 +2,31 @@
 {% load static %}
 
 {% block content %}
-<form id="uploadForm" action="" method="POST" enctype="multipart/form-data">
-  <table class="table">
-    <tr>
-      <th>画像</th>
-      <td>
-        {{ form.images }}<br>
-        一度に5枚まで投稿できます。<br>
-        現状iPad11インチサイズのみ対応。難易度は判定していません。別サイズ・別難易度画像募集しています。
-      </td>
-    </tr>
-    <tr>
-      <th>日付</th>
-      <td>{{ form.date }}</td>
-    </tr>
-  </table>
-  <button id="submitButton" type="submit" class="btn btn-primary">
-    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
-    投稿
-  </button>
-  {% csrf_token %}
-</form>
-
+<div class="row">
+  <div class="col-10">
+    <form id="uploadForm" action="" method="POST" enctype="multipart/form-data">
+      <table class="table">
+        <tr>
+          <th>画像</th>
+          <td>
+            {{ form.images }}<br>
+            一度に5枚まで投稿できます。<br>
+            現状iPad11インチサイズのみ対応。難易度は判定していません。別サイズ・別難易度画像募集しています。
+          </td>
+        </tr>
+        <tr>
+          <th>日付</th>
+          <td>{{ form.date }}</td>
+        </tr>
+      </table>
+      <button id="submitButton" type="submit" class="btn btn-primary">
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true" style="display: none;"></span>
+        投稿
+      </button>
+      {% csrf_token %}
+    </form>
+  </div>
+</div>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
   const maxImages = 5; // 最大ファイル数
